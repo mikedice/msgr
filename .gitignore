@@ -1,0 +1,6 @@
+.vscode
+cli.dSYM
+cli
+msgr
+clientlog.txt
+listenerlog.txt
