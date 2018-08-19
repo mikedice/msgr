@@ -23,7 +23,7 @@
 
 int clientSockFd = -1;
 std::ofstream clientLogStream;
-const char *clientLogPath = "/Users/mikedice/code/c++/msgr/clientlog.txt";
+const char *clientLogPath = "clientlog.txt";
 
 // Callback function for SIGTERM event to the
 // listener process. Close the listening socket

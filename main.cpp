@@ -12,6 +12,7 @@
 
 #include "Listener.h"
 #include <iostream>
+#include <cstdlib>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/types.h>
@@ -21,6 +22,24 @@ int childGroup = -1;
 
 int main(int argc, const char * argv[]) 
 {
+    if (argc < 2)
+    {
+        std::cout << "Must specify listen port" << std::endl;
+        exit(1);
+    }
+
+    int port = 0;
+    
+    try
+    {
+        port = std::stoi(argv[1]);
+    }
+    catch (const std::invalid_argument& ia) 
+    {
+        std::cout << "Error converting first argument to valid number. Program will exit" << std::endl;
+        exit(1);
+    }
+
     std::cout << "Starting listener" << std::endl;
     std::cout << "Ctrl+c to exit" << std::endl;
     
@@ -30,7 +49,7 @@ int main(int argc, const char * argv[])
     {
         // listen in child process
         Listener listener;
-        listener.Listen(); // listen will not return
+        listener.Listen(port); // listen will not return
     }
     else
     {

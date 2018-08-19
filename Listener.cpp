@@ -24,7 +24,7 @@
 
 int sockfd = -1;
 std::ofstream logstream;
-const char* logpath = "/Users/mikedice/code/c++/msgr/listenerlog.txt";
+const char* logname = "listenerlog.txt";
 pid_t socketGroup = -1;
 
 // Callback function for SIGTERM event to the
@@ -39,7 +39,7 @@ extern "C" void listenerTermHandler(int s)
         logstream << "listener is closing listen socket with fd: " << sockfd << ", pid: " << getpid() << std::endl;
         close(sockfd);
     }
-    
+
     if (socketGroup > 0)
     {
         logstream << "listener is closing child pid group with group pid: " << socketGroup << std::endl;
@@ -54,7 +54,7 @@ extern "C" void listenerTermHandler(int s)
 
 Listener::Listener()
 {
-    logstream.open(logpath, std::ios::out);
+    logstream.open(logname, std::ios::out);
 }
 
 // Create listening socket and begin listening for new
@@ -74,7 +74,7 @@ void Listener::Listen2()
     }
 }
 
-void Listener::Listen()
+void Listener::Listen(int port)
 {
     int newsockfd;
     sockaddr_in serv_addr, cli_addr;
@@ -83,11 +83,11 @@ void Listener::Listen()
     
     bzero((char*)&serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(8091);
+    serv_addr.sin_port = htons(port);
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     
     
-    logstream << "Listener will listen" << std::endl;
+    logstream << "Listener will listen on port " << port << std::endl;
     
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     //int flags = fcntl(sockfd, F_GETFL);

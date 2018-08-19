@@ -19,7 +19,7 @@ private:
     
 public:
     Listener();
-    void Listen();
+    void Listen(int port);
     void Listen2();
 };
 
