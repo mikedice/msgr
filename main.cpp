@@ -63,11 +63,14 @@ int main(int argc, const char * argv[])
         // investigation
         if (childGroup < 0)
         {
+            std::cout << "started listener process with pid " << listenerPid << std::endl;
             childGroup = listenerPid;
             setpgid(listenerPid, listenerPid);
+            std::cout << "listener process added to new process group with pgpid " << listenerPid << std::endl;
         }
         else
         {
+            std::cout << "listener process " << listenerPid << " added to existing process group with pgid " << childGroup << std::endl;
             setpgid(listenerPid, childGroup);
         }
         
@@ -80,7 +83,7 @@ int main(int argc, const char * argv[])
         
         // signal child to terminate
         int result = killpg(childGroup, SIGTERM);
-        std::cout << "Result of kill signal send to listener: " << result << std::endl;
+        std::cout << "SIGTERM sent to listener process group with pgid " << childGroup << " and resul was " << result << std::endl;
         wait(NULL);
         return 0;
     }
