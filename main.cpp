@@ -6,7 +6,7 @@
 //  Created by Michael Dice on 8/16/18.
 //  Copyright © 2018 Michael Dice. All rights reserved.
 //
-//  I use Microsoft Visual Studio Code with C++ extensions
+//  Created using Microsoft Visual Studio Code with C++ extensions
 //  on MacBook Air OSX High Sierra 10.13.6
 //
 
@@ -17,8 +17,8 @@
 
 int childGroup = -1;
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
+int main(int argc, const char * argv[]) 
+{
     std::cout << "Starting listener" << std::endl;
     std::cout << "Ctrl+c to exit" << std::endl;
     
@@ -32,6 +32,14 @@ int main(int argc, const char * argv[]) {
     }
     else
     {
+        // Put the pid of the newly forked process in a
+        // child process group. Create the group if it doesn't
+        // exist. 
+        // On OSX signaling the child doesn't seem to
+        // work if I signal the child pid directly, but it 
+        // does work if I put the child pid in a process group
+        // and signal the whole group. This probably needs more
+        // investigation
         if (childGroup < 0)
         {
             childGroup = listenerPid;
@@ -42,7 +50,7 @@ int main(int argc, const char * argv[]) {
             setpgid(listenerPid, childGroup);
         }
         
-        // terminate on ctrl+c
+        // main process just sits around and waits for user to press Ctrl + c
         sigset_t sigSet[] = { SIGINT };
         int sigResult = -1;
         sigwait(sigSet, &sigResult);

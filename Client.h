@@ -6,7 +6,7 @@
 //  Created by Michael Dice on 8/16/18.
 //  Copyright © 2018 Michael Dice. All rights reserved.
 //
-//  I use Microsoft Visual Studio Code with C++ extensions
+//  Created using Microsoft Visual Studio Code with C++ extensions
 //  on MacBook Air OSX High Sierra 10.13.6
 //
 
