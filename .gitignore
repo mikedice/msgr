@@ -1,5 +1,6 @@
-cli.dSYM
+*.dSYM
 cli
 msgr
 clientlog.txt
 listenerlog.txt
+*.o

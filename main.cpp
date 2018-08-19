@@ -6,7 +6,7 @@
 //  Created by Michael Dice on 8/16/18.
 //  Copyright © 2018 Michael Dice. All rights reserved.
 //
-//  Yo, I use Microsoft Visual Studio Code with C++ extensions
+//  I use Microsoft Visual Studio Code with C++ extensions
 //  on MacBook Air OSX High Sierra 10.13.6
 //
 
@@ -47,7 +47,7 @@ int main(int argc, const char * argv[]) {
         int sigResult = -1;
         sigwait(sigSet, &sigResult);
         
-        std::cout << "Ctrl+c detected. Terminating application. Will kill listener pid(" <<listenerPid << ")" << std::endl;
+        std::cout << "Ctrl+c detected. Terminating application. Will kill listener pid group(" <<listenerPid << ")" << std::endl;
         
         // signal child to terminate
         int result = killpg(childGroup, SIGTERM);

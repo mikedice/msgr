@@ -6,13 +6,9 @@
         {
             "label": "Build msgr c++",
             "type": "shell",
-            "command": "g++",
+            "command": "make",
             "args": [
-                "-o",
-                "msgr",
-                "Client.cpp",
-                "Listener.cpp",
-                "main.cpp"
+                "msgr"
             ],
             "group":{
                 "kind": "build",
