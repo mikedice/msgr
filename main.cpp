@@ -75,15 +75,19 @@ int main(int argc, const char * argv[])
         }
         
         // main process just sits around and waits for user to press Ctrl + c
-        sigset_t sigSet[] = { SIGINT };
+        //sigset_t sigSet[] = { SIGINT };
+        //int sigResult = -1;
+        //sigwait(sigSet, &sigResult);
         int sigResult = -1;
-        sigwait(sigSet, &sigResult);
-        
+        sigset_t signal_set;
+        sigemptyset(&signal_set);
+        sigaddset(&signal_set, SIGINT); 
+        sigwait( &signal_set, &sigResult);
         std::cout << "Ctrl+c detected. Terminating application. Will kill listener pid group(" <<listenerPid << ")" << std::endl;
         
         // signal child to terminate
         int result = killpg(childGroup, SIGTERM);
-        std::cout << "SIGTERM sent to listener process group with pgid " << childGroup << " and resul was " << result << std::endl;
+        std::cout << "SIGTERM sent to listener process group with pgid " << childGroup << " and result was " << result << std::endl;
         wait(NULL);
         return 0;
     }
