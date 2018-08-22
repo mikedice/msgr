@@ -53,9 +53,10 @@ void RegisterClientSigHandler()
     sigaction(SIGTERM, &sigIntHandler, NULL);
 }
 
-Client::Client(int socketFd)
+Client::Client(int socketFd, char* clientIp)
 {
     clientSockFd = socketFd;
+    clientIPAddress = clientIp;
     clientLogStream.open(clientLogPath, std::ios::out);
     RegisterClientSigHandler(); // registers a handler for this process
 }

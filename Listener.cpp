@@ -18,6 +18,7 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <strings.h>
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -129,12 +130,15 @@ void Listener::Listen(int port)
         }
         else
         {
+            char *clientIp = inet_ntoa(cli_addr.sin_addr);
+            std::cout << "Accepting connection from client at ip address: " << clientIp << std::endl;
+
             logstream << "accepting new connection on socket with FD: " << newsockfd << std::endl;
             
             pid_t forkPid = fork();
             if (forkPid == 0)
             {
-                Client client(newsockfd);
+                Client client(newsockfd, clientIp);
                 client.Process(); // will not return
                 close(sockfd); // close listener socket in client process
             }

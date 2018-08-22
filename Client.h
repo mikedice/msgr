@@ -18,11 +18,12 @@
 class Client
 {
 private:
+    std::string clientIPAddress;
     bool HasCompleteLine(char* buffer, int size);
     void ProcessLine(char *buffer, int size);
     void ProcessLine(std::string line); 
 public:
-    Client(int socketFd);
+    Client(int socketFd, char* clientIp);
     void Process();
 };
 

@@ -21,7 +21,6 @@
 int childGroup = -1;
 void OnSIGINT(int sig)
 {
-    printf("SIGINT %d\n", sig);
     std::cout << "Ctrl+c detected. Terminating application. Will kill listener pid group(" << childGroup << ")" << std::endl;
 
     if (childGroup > 0)
@@ -87,23 +86,14 @@ int main(int argc, const char *argv[])
             setpgid(listenerPid, childGroup);
         }
 
-        // main process just sits around and waits for user to press Ctrl + c
-        //sigset_t sigSet[] = { SIGINT };
-        //int sigResult = -1;
-        //sigwait(sigSet, &sigResult);
-        /*
-        int sigResult = -1;
-        sigset_t signal_set;
-        sigemptyset(&signal_set);
-        sigaddset(&signal_set, SIGINT); 
-        sigwait( &signal_set, &sigResult);
-        */
+        // set the signal handler and wait forever for user
+        // to terminate app with ctrl+C
         signal(SIGINT, OnSIGINT);
         while(true)
         {
             sleep(1);
         }
-        std::cout << "exit main process with code 0" << std::endl;
+
         return 0;
     }
 }
