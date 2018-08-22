@@ -98,7 +98,7 @@ int main(int argc, const char *argv[])
         sigaddset(&signal_set, SIGINT); 
         sigwait( &signal_set, &sigResult);
         */
-        signal(SIGTERM, OnSIGINT);
+        signal(SIGINT, OnSIGINT);
         while(true)
         {
             sleep(1);
