@@ -13,7 +13,6 @@
 #include "Client.h"
 #include <iostream>
 #include <fstream>
-#include <csignal>
 #include <unistd.h>
 #include <signal.h>
 #include <fcntl.h>
@@ -53,6 +52,19 @@ extern "C" void listenerTermHandler(int s)
     exit(1); // exit child
 }
 
+// Register a callback for SIGTERM event in
+// the listener process.
+void RegisterListenerSigHandler()
+{
+    struct sigaction sigIntHandler;
+
+    sigIntHandler.sa_handler = listenerTermHandler;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+
+    sigaction(SIGTERM, &sigIntHandler, NULL);
+}
+
 Listener::Listener()
 {
     logstream.open(logname, std::ios::out);
@@ -64,23 +76,12 @@ Listener::Listener()
 // over the new socket. Listener will put all new processes
 // in their own process group so they can all be shut down
 // if and when the listener gets shut down.
-
-void Listener::Listen2()
-{
-    logstream << "listening in process " << getpid() << std::endl;
-    std::signal(SIGTERM, listenerTermHandler);
-    while (1)
-    {
-        sleep(1);
-    }
-}
-
 void Listener::Listen(int port)
 {
     int newsockfd;
     sockaddr_in serv_addr, cli_addr;
     
-    std::signal(SIGTERM, listenerTermHandler);
+    RegisterListenerSigHandler();
     
     bzero((char*)&serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;

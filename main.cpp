@@ -32,6 +32,17 @@ void OnSIGINT(int sig)
     exit(0);
 }
 
+void RegisterMainSigHandler()
+{
+    struct sigaction sigIntHandler;
+
+    sigIntHandler.sa_handler = OnSIGINT;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+
+    sigaction(SIGINT, &sigIntHandler, NULL);
+}
+
 int main(int argc, const char *argv[])
 {
     if (argc < 2)
@@ -88,7 +99,7 @@ int main(int argc, const char *argv[])
 
         // set the signal handler and wait forever for user
         // to terminate app with ctrl+C
-        signal(SIGINT, OnSIGINT);
+        RegisterMainSigHandler();
         while(true)
         {
             sleep(1);
