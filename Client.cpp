@@ -95,7 +95,7 @@ void Client::Process()
         }
         else if (bytesRead == 0)
         {
-            clientLogStream << "peer has closed socket with file descriptor " << clientSockFd << std::endl;
+            clientLogStream << "peer has with IP " << this->clientIPAddress << " closed connection" << std::endl;
             close(clientSockFd);
             clientLogStream << "client with pid (" << getpid() << ") will close because peer has disconnected." << std::endl;
             exit(0);
